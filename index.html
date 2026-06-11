@@ -1,0 +1,946 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>แบบทดสอบความสนใจอาชีพ RIASEC</title>
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Prompt', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 24px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .header h1 {
+            font-size: 2.2em;
+            color: #4a4a8a;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            color: #666;
+            font-size: 1.1em;
+        }
+        
+        .progress-container {
+            background: #e0e0e0;
+            border-radius: 10px;
+            height: 12px;
+            margin-bottom: 30px;
+            overflow: hidden;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            border-radius: 10px;
+            transition: width 0.5s ease;
+            width: 0%;
+        }
+        
+        .progress-text {
+            text-align: center;
+            color: #666;
+            margin-bottom: 20px;
+            font-size: 0.9em;
+        }
+        
+        .section {
+            background: #f8f9ff;
+            border-radius: 16px;
+            padding: 25px;
+            margin-bottom: 25px;
+            border: 1px solid #e8e8ff;
+        }
+        
+        .section h2 {
+            color: #5a5a9a;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #667eea;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.3em;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #444;
+            font-weight: 500;
+        }
+        
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            font-size: 1em;
+            font-family: 'Prompt', sans-serif;
+            transition: border-color 0.3s;
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+        
+        .question-card {
+            background: white;
+            border-radius: 12px;
+            padding: 16px 20px;
+            margin-bottom: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            transition: transform 0.2s, box-shadow 0.2s;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .question-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .question-card.answered {
+            border-left: 4px solid #667eea;
+        }
+        
+        .question-text {
+            flex: 1;
+            color: #333;
+            font-size: 1em;
+            min-width: 200px;
+        }
+        
+        .btn-group {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .btn-choice {
+            padding: 10px 24px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-family: 'Prompt', sans-serif;
+            font-size: 0.95em;
+            transition: all 0.3s;
+        }
+        
+        .btn-like {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+        
+        .btn-like:hover {
+            background: #c8e6c9;
+        }
+        
+        .btn-like.selected {
+            background: #4CAF50;
+            color: white;
+            transform: scale(1.05);
+            box-shadow: 0 4px 15px rgba(76,175,80,0.4);
+        }
+        
+        .btn-dislike {
+            background: #ffebee;
+            color: #c62828;
+        }
+        
+        .btn-dislike:hover {
+            background: #ffcdd2;
+        }
+        
+        .btn-dislike.selected {
+            background: #f44336;
+            color: white;
+            transform: scale(1.05);
+            box-shadow: 0 4px 15px rgba(244,67,54,0.4);
+        }
+        
+        .submit-btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.3em;
+            font-family: 'Prompt', sans-serif;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            margin-top: 20px;
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(102,126,234,0.4);
+        }
+        
+        .submit-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .result-container {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .result-header {
+            text-align: center;
+            padding: 30px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 16px;
+            color: white;
+            margin-bottom: 25px;
+        }
+        
+        .result-code {
+            font-size: 3.5em;
+            font-weight: 700;
+            letter-spacing: 10px;
+            margin: 20px 0;
+            text-shadow: 2px 2px 10px rgba(0,0,0,0.2);
+        }
+        
+        .result-name {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+        
+        .score-chart {
+            background: #f8f9ff;
+            border-radius: 16px;
+            padding: 25px;
+            margin-bottom: 25px;
+        }
+        
+        .score-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .score-label {
+            width: 140px;
+            font-weight: 500;
+            color: #444;
+            font-size: 0.9em;
+        }
+        
+        .score-bar-container {
+            flex: 1;
+            min-width: 150px;
+            height: 30px;
+            background: #e0e0e0;
+            border-radius: 15px;
+            overflow: hidden;
+        }
+        
+        .score-bar-fill {
+            height: 100%;
+            border-radius: 15px;
+            transition: width 1s ease;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 10px;
+            color: white;
+            font-weight: 600;
+            font-size: 0.9em;
+        }
+        
+        .score-value {
+            width: 50px;
+            text-align: right;
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .career-section {
+            background: white;
+            border-radius: 16px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+        
+        .career-section h3 {
+            color: #4a4a8a;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .personality-card {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e8ecf3 100%);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-left: 5px solid;
+        }
+        
+        .personality-card h4 {
+            margin-bottom: 10px;
+        }
+        
+        .personality-card p {
+            color: #555;
+            line-height: 1.6;
+        }
+        
+        .career-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .career-item {
+            background: #f0f4ff;
+            padding: 12px 16px;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 0.9em;
+            color: #444;
+            transition: all 0.3s;
+        }
+        
+        .career-item:hover {
+            background: #667eea;
+            color: white;
+            transform: scale(1.05);
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 25px;
+            flex-wrap: wrap;
+        }
+        
+        .action-btn {
+            flex: 1;
+            min-width: 150px;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            font-family: 'Prompt', sans-serif;
+            font-size: 1em;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .btn-restart {
+            background: #f0f0f0;
+            color: #333;
+        }
+        
+        .btn-restart:hover {
+            background: #e0e0e0;
+        }
+        
+        .btn-print {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .btn-print:hover {
+            opacity: 0.9;
+        }
+        
+        .btn-share {
+            background: #25D366;
+            color: white;
+        }
+        
+        .btn-share:hover {
+            background: #128C7E;
+        }
+        
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+                border-radius: 16px;
+            }
+            
+            .header h1 {
+                font-size: 1.5em;
+            }
+            
+            .question-card {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .btn-group {
+                width: 100%;
+            }
+            
+            .btn-choice {
+                flex: 1;
+                padding: 12px;
+            }
+            
+            .result-code {
+                font-size: 2.5em;
+                letter-spacing: 5px;
+            }
+            
+            .score-label {
+                width: 100%;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+            
+            .action-btn {
+                width: 100%;
+            }
+        }
+        
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+            
+            .container {
+                box-shadow: none;
+                padding: 20px;
+            }
+            
+            .submit-btn,
+            .action-buttons,
+            .form-section {
+                display: none !important;
+            }
+            
+            .result-container {
+                display: block !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Form Section -->
+        <div class="form-section" id="formSection">
+            <div class="header">
+                <h1>🎯 แบบทดสอบความสนใจอาชีพ</h1>
+                <p>ค้นหารหัส RIASEC ที่เหมาะกับคุณ</p>
+            </div>
+            
+            <div class="progress-text" id="progressText">ตอบแล้ว 0 จาก 60 ข้อ (0%)</div>
+            <div class="progress-container">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
+            
+            <!-- ข้อมูลส่วนตัว -->
+            <div class="section">
+                <h2>📝 ข้อมูลส่วนตัว</h2>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>ชื่อ-นามสกุล *</label>
+                        <input type="text" id="fullName" placeholder="กรอกชื่อ-นามสกุล" required>
+                    </div>
+                    <div class="form-group">
+                        <label>เลขที่ *</label>
+                        <input type="number" id="studentNo" placeholder="เลขที่" min="1" max="60" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>ระดับชั้น *</label>
+                        <select id="gradeLevel" required>
+                            <option value="">-- เลือกระดับชั้น --</option>
+                            <option value="ม.1">มัธยมศึกษาปีที่ 1</option>
+                            <option value="ม.2">มัธยมศึกษาปีที่ 2</option>
+                            <option value="ม.3">มัธยมศึกษาปีที่ 3</option>
+                            <option value="ม.4">มัธยมศึกษาปีที่ 4</option>
+                            <option value="ม.5">มัธยมศึกษาปีที่ 5</option>
+                            <option value="ม.6">มัธยมศึกษาปีที่ 6</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>ห้องเรียน *</label>
+                        <select id="classroom" required>
+                            <option value="">-- เลือกห้องเรียน --</option>
+                            <option value="1">ห้อง 1</option>
+                            <option value="2">ห้อง 2</option>
+                            <option value="3">ห้อง 3</option>
+                            <option value="4">ห้อง 4</option>
+                            <option value="5">ห้อง 5</option>
+                            <option value="6">ห้อง 6</option>
+                            <option value="7">ห้อง 7</option>
+                            <option value="8">ห้อง 8</option>
+                            <option value="9">ห้อง 9</option>
+                            <option value="10">ห้อง 10</option>
+                            <option value="11">ห้อง 11</option>
+                            <option value="12">ห้อง 12</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>เพศ *</label>
+                        <select id="gender" required>
+                            <option value="">-- เลือกเพศ --</option>
+                            <option value="ชาย">ชาย</option>
+                            <option value="หญิง">หญิง</option>
+                            <option value="ไม่ระบุ">ไม่ระบุ</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- คำถาม RIASEC -->
+            <div id="questionsContainer"></div>
+            
+            <button class="submit-btn" id="submitBtn" onclick="calculateResult()" disabled>
+                📊 ดูผลการทดสอบ
+            </button>
+        </div>
+        
+        <!-- Result Section -->
+        <div class="result-container" id="resultSection">
+            <div class="result-header">
+                <h2>🎉 ผลการทดสอบของคุณ</h2>
+                <div class="result-code" id="resultCode">---</div>
+                <div class="result-name" id="resultName"></div>
+            </div>
+            
+            <div class="section">
+                <h2>👤 ข้อมูลผู้ทำแบบทดสอบ</h2>
+                <div id="userInfo"></div>
+            </div>
+            
+            <div class="score-chart">
+                <h3 style="margin-bottom:20px; color:#4a4a8a;">📊 คะแนนแต่ละด้าน</h3>
+                <div id="scoreChart"></div>
+            </div>
+            
+            <div class="career-section">
+                <h3>🧠 ลักษณะบุคลิกภาพของคุณ</h3>
+                <div id="personalityDesc"></div>
+            </div>
+            
+            <div class="career-section">
+                <h3>💼 อาชีพที่แนะนำสำหรับคุณ</h3>
+                <div id="careerSuggestions"></div>
+            </div>
+            
+            <div class="career-section">
+                <h3>🎓 สาขาวิชาที่แนะนำ</h3>
+                <div id="majorSuggestions"></div>
+            </div>
+            
+            <div class="action-buttons">
+                <button class="action-btn btn-restart" onclick="restartTest()">
+                    🔄 ทำแบบทดสอบใหม่
+                </button>
+                <button class="action-btn btn-print" onclick="window.print()">
+                    🖨️ พิมพ์ผลลัพธ์
+                </button>
+                <button class="action-btn btn-share" onclick="shareResult()">
+                    📤 แชร์ผลลัพธ์
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ===== ข้อมูล RIASEC =====
+        const riasecData = {
+            R: {
+                name: "Realistic",
+                nameTH: "นักปฏิบัติ",
+                color: "#e74c3c",
+                icon: "🔧",
+                questions: [
+                    "ซ่อมแซมเครื่องใช้ไฟฟ้าหรืออุปกรณ์ต่างๆ",
+                    "ทำงานกลางแจ้ง เช่น ปลูกต้นไม้ ทำสวน",
+                    "ประกอบชิ้นส่วนหรือโมเดล",
+                    "ใช้เครื่องมือช่าง เช่น ค้อน ไขควง สว่าน",
+                    "ซ่อมรถจักรยานหรือรถยนต์",
+                    "ทำงานที่ต้องใช้แรงกายหรือออกกำลังกาย",
+                    "ทำอาหารหรือทำขนม",
+                    "ดูแลสัตว์เลี้ยง",
+                    "ทำงานฝีมือ เช่น เย็บผ้า งานไม้",
+                    "ขับรถหรือควบคุมเครื่องจักร"
+                ],
+                description: "คุณเป็นคนที่ชอบทำงานกับสิ่งของที่จับต้องได้ ใช้มือทำงาน มีทักษะเชิงกลไก ชอบทำงานกลางแจ้งและกิจกรรมที่ต้องใช้ร่างกาย",
+                careers: ["วิศวกรเครื่องกล", "สถาปนิก", "ช่างเทคนิค", "นักบิน", "ทหาร/ตำรวจ", "เกษตรกร", "เชฟ/พ่อครัว", "ช่างภาพ", "นักกีฬา", "ช่างไฟฟ้า"],
+                majors: ["วิศวกรรมศาสตร์", "สถาปัตยกรรม", "เกษตรศาสตร์", "วิทยาศาสตร์การกีฬา", "คหกรรมศาสตร์", "อุตสาหกรรมศิลป์"]
+            },
+            I: {
+                name: "Investigative",
+                nameTH: "นักคิดวิเคราะห์",
+                color: "#3498db",
+                icon: "🔬",
+                questions: [
+                    "อ่านหนังสือหรือบทความวิทยาศาสตร์",
+                    "ทำการทดลองทางวิทยาศาสตร์",
+                    "แก้โจทย์ปัญหาคณิตศาสตร์ที่ท้าทาย",
+                    "ค้นคว้าหาความรู้ใหม่ๆ ในอินเทอร์เน็ต",
+                    "วิเคราะห์ข้อมูลหรือสถิติ",
+                    "เขียนโปรแกรมหรือเรียนรู้การเขียนโค้ด",
+                    "ศึกษาเกี่ยวกับอวกาศและดาราศาสตร์",
+                    "ทำโครงงานวิจัย",
+                    "แก้ปริศนาหรือเกมฝึกสมอง",
+                    "เรียนรู้ทฤษฎีหรือแนวคิดใหม่ๆ"
+                ],
+                description: "คุณเป็นคนช่างคิด ช่างสังเกต ชอบวิเคราะห์และแก้ปัญหา มีความอยากรู้อยากเห็น ชอบทำงานกับข้อมูลและความคิดมากกว่าคน",
+                careers: ["แพทย์", "นักวิทยาศาสตร์", "นักวิจัย", "โปรแกรมเมอร์", "นักเศรษฐศาสตร์", "เภสัชกร", "นักจิตวิทยา", "Data Scientist", "นักชีววิทยา", "วิศวกรซอฟต์แวร์"],
+                majors: ["แพทยศาสตร์", "วิทยาศาสตร์", "วิศวกรรมคอมพิวเตอร์", "เภสัชศาสตร์", "จิตวิทยา", "เศรษฐศาสตร์", "สถิติ"]
+            },
+            A: {
+                name: "Artistic",
+                nameTH: "นักสร้างสรรค์",
+                color: "#9b59b6",
+                icon: "🎨",
+                questions: [
+                    "วาดรูปหรือระบายสี",
+                    "เล่นดนตรีหรือร้องเพลง",
+                    "เขียนเรื่องสั้น บทกวี หรือนิยาย",
+                    "ถ่ายรูปหรือถ่ายวิดีโอ",
+                    "ออกแบบกราฟิกหรือโปสเตอร์",
+                    "แสดงละครหรือการแสดงต่างๆ",
+                    "ตกแต่งห้องหรือจัดดอกไม้",
+                    "ทำคลิปวิดีโอหรือตัดต่อวิดีโอ",
+                    "ออกแบบเสื้อผ้าหรือแฟชั่น",
+                    "เต้นหรือเคลื่อนไหวร่างกายตามจังหวะ"
+                ],
+                description: "คุณเป็นคนมีจินตนาการ ความคิดสร้างสรรค์ ชอบแสดงออกผ่านงานศิลปะ ไม่ชอบกฎเกณฑ์ที่ตายตัว ต้องการอิสระในการทำงาน",
+                careers: ["กราฟิกดีไซเนอร์", "นักดนตรี", "นักเขียน", "ช่างภาพ", "ผู้กำกับภาพยนตร์", "แฟชั่นดีไซเนอร์", "สถาปนิก", "Youtuber", "นักแสดง", "Interior Designer"],
+                majors: ["นิเทศศาสตร์", "ศิลปกรรมศาสตร์", "ดุริยางคศิลป์", "สถาปัตยกรรม", "การออกแบบ", "ภาพยนตร์และสื่อดิจิทัล", "แฟชั่นดีไซน์"]
+            },
+            S: {
+                name: "Social",
+                nameTH: "นักสังคม",
+                color: "#2ecc71",
+                icon: "🤝",
+                questions: [
+                    "สอนหนังสือหรืออธิบายให้เพื่อน/น้องเข้าใจ",
+                    "ช่วยเหลือผู้อื่นที่มีปัญหา",
+                    "ทำงานอาสาสมัครหรือจิตอาสา",
+                    "ให้คำปรึกษาแก่เพื่อน",
+                    "จัดกิจกรรมกลุ่มหรืองานเลี้ยง",
+                    "ดูแลเด็กเล็กหรือผู้สูงอายุ",
+                    "ทำงานเป็นทีมกับผู้อื่น",
+                    "ไกล่เกลี่ยหรือแก้ไขข้อขัดแย้ง",
+                    "พูดคุยทำความรู้จักกับคนใหม่ๆ",
+                    "รับฟังปัญหาของผู้อื่น"
+                ],
+                description: "คุณเป็นคนที่ชอบทำงานกับผู้คน ช่วยเหลือ สอน ให้คำปรึกษา มีความเห็นอกเห็นใจ ชอบทำงานเป็นทีมและสร้างความสัมพันธ์",
+                careers: ["ครู/อาจารย์", "พยาบาล", "นักสังคมสงเคราะห์", "นักจิตวิทยาการปรึกษา", "นักแนะแนว", "HR", "พนักงานต้อนรับ", "นักกิจกรรมบำบัด", "แพทย์", "นักการทูต"],
+                majors: ["ครุศาสตร์/ศึกษาศาสตร์", "พยาบาลศาสตร์", "สังคมสงเคราะห์", "จิตวิทยา", "นิเทศศาสตร์", "การท่องเที่ยว", "รัฐศาสตร์"]
+            },
+            E: {
+                name: "Enterprising",
+                nameTH: "นักธุรกิจ",
+                color: "#f39c12",
+                icon: "💼",
+                questions: [
+                    "เป็นหัวหน้ากลุ่มหรือผู้นำในกิจกรรม",
+                    "ขายของหรือทำธุรกิจเล็กๆ",
+                    "โน้มน้าวให้ผู้อื่นเห็นด้วยกับความคิดของตน",
+                    "เข้าร่วมการแข่งขันหรือประกวดต่างๆ",
+                    "พูดหน้าชั้นเรียนหรือนำเสนองาน",
+                    "วางแผนโครงการหรือกิจกรรม",
+                    "เจรจาต่อรองเพื่อให้ได้สิ่งที่ต้องการ",
+                    "ตัดสินใจในเรื่องสำคัญ",
+                    "ริเริ่มทำสิ่งใหม่ๆ ด้วยตัวเอง",
+                    "รับผิดชอบงานที่ท้าทายและมีความเสี่ยง"
+                ],
+                description: "คุณเป็นคนกล้าแสดงออก มีความเป็นผู้นำ ชอบโน้มน้าวผู้อื่น รักความท้าทาย ชอบการแข่งขัน และมีเป้าหมายชัดเจน",
+                careers: ["เจ้าของธุรกิจ", "ผู้จัดการ", "นักการตลาด", "พนักงานขาย", "ทนายความ", "นักการเมือง", "นักลงทุน", "CEO", "ที่ปรึกษาธุรกิจ", "นายหน้าอสังหาริมทรัพย์"],
+                majors: ["บริหารธุรกิจ", "การตลาด", "นิติศาสตร์", "รัฐศาสตร์", "เศรษฐศาสตร์", "การจัดการ", "การเงิน"]
+            },
+            C: {
+                name: "Conventional",
+                nameTH: "นักจัดระบบ",
+                color: "#1abc9c",
+                icon: "📊",
+                questions: [
+                    "จัดระเบียบเอกสารหรือข้อมูลให้เป็นหมวดหมู่",
+                    "ทำบัญชีรายรับรายจ่าย",
+                    "ใช้โปรแกรม Excel, Word หรือซอฟต์แวร์สำนักงาน",
+                    "ตรวจสอบความถูกต้องของข้อมูลหรือเอกสาร",
+                    "วางแผนตารางเวลาหรือกำหนดการ",
+                    "จดบันทึกหรือทำสรุปเนื้อหา",
+                    "ทำงานตามขั้นตอนที่กำหนดไว้ชัดเจน",
+                    "เก็บรักษาเอกสารอย่างเป็นระบบ",
+                    "คำนวณตัวเลขหรือทำงานเกี่ยวกับเงิน",
+                    "ทำงานที่ต้องใช้ความละเอียดรอบคอบ"
+                ],
+                description: "คุณเป็นคนละเอียดรอบคอบ ชอบความเป็นระเบียบ ทำงานตามแบบแผน มีความรับผิดชอบสูง ชอบทำงานกับตัวเลขและข้อมูล",
+                careers: ["นักบัญชี", "เลขานุการ", "พนักงานธนาคาร", "นักวิเคราะห์ระบบ", "ผู้ตรวจสอบบัญชี", "เจ้าหน้าที่ภาษี", "Admin", "Data Entry", "นักวิเคราะห์การเงิน", "เจ้าหน้าที่ทะเบียน"],
+                majors: ["บัญชี", "การเงิน", "ระบบสารสนเทศ", "สถิติ", "บริหารธุรกิจ", "เศรษฐศาสตร์", "วิทยาการคอมพิวเตอร์"]
+            }
+        };
+
+        const types = ['R', 'I', 'A', 'S', 'E', 'C'];
+        let answers = {};
+        let totalQuestions = 0;
+        let answeredCount = 0;
+
+        // ===== สร้างคำถาม =====
+        function initQuestions() {
+            const container = document.getElementById('questionsContainer');
+            
+            types.forEach(type => {
+                const data = riasecData[type];
+                const section = document.createElement('div');
+                section.className = 'section';
+                section.innerHTML = `
+                    <h2>${data.icon} ${data.name} (${data.nameTH})</h2>
+                    <p style="margin-bottom:15px; color:#666;">เลือก "ชอบ" หากคุณสนใจทำกิจกรรมนั้น หรือ "ไม่ชอบ" หากไม่สนใจ</p>
+                    <div id="questions_${type}"></div>
+                `;
+                container.appendChild(section);
+                
+                const questionsDiv = document.getElementById(`questions_${type}`);
+                data.questions.forEach((question, index) => {
+                    const id = `${type}_${index}`;
+                    const card = document.createElement('div');
+                    card.className = 'question-card';
+                    card.id = `card_${id}`;
+                    card.innerHTML = `
+                        <span class="question-text">${index + 1}. ${question}</span>
+                        <div class="btn-group">
+                            <button class="btn-choice btn-like" onclick="selectAnswer('${id}', '${type}', true, this)">ชอบ</button>
+                            <button class="btn-choice btn-dislike" onclick="selectAnswer('${id}', '${type}', false, this)">ไม่ชอบ</button>
+                        </div>
+                    `;
+                    questionsDiv.appendChild(card);
+                    totalQuestions++;
+                });
+            });
+        }
+
+        // ===== เลือกคำตอบ =====
+        function selectAnswer(id, type, value, btn) {
+            if (!answers[id]) {
+                answeredCount++;
+            }
+            answers[id] = { type, value };
+            
+            const card = document.getElementById(`card_${id}`);
+            card.classList.add('answered');
+            
+            const buttons = btn.parentElement.querySelectorAll('.btn-choice');
+            buttons.forEach(b => b.classList.remove('selected'));
+            btn.classList.add('selected');
+            
+            updateProgress();
+        }
+
+        // ===== อัพเดท Progress =====
+        function updateProgress() {
+            const percent = Math.round((answeredCount / totalQuestions) * 100);
+            document.getElementById('progressBar').style.width = percent + '%';
+            document.getElementById('progressText').textContent = 
+                `ตอบแล้ว ${answeredCount} จาก ${totalQuestions} ข้อ (${percent}%)`;
+            
+            document.getElementById('submitBtn').disabled = answeredCount < totalQuestions;
+        }
+
+        // ===== คำนวณผล =====
+        function calculateResult() {
+            const name = document.getElementById('fullName').value.trim();
+            const grade = document.getElementById('gradeLevel').value;
+            const classroom = document.getElementById('classroom').value;
+            const studentNo = document.getElementById('studentNo').value;
+            const gender = document.getElementById('gender').value;
+            
+            if (!name || !grade || !classroom || !studentNo || !gender) {
+                alert('กรุณากรอกข้อมูลส่วนตัวให้ครบถ้วน');
+                return;
+            }
+            
+            const scores = { R: 0, I: 0, A: 0, S: 0, E: 0, C: 0 };
+            
+            Object.values(answers).forEach(answer => {
+                if (answer.value) {
+                    scores[answer.type]++;
+                }
+            });
+            
+            const sorted = Object.entries(scores).sort((a, b) => b - a);
+            const topThree = sorted.slice(0, 3);
+            const code = topThree.map(s => s).join('');
+            
+            displayResults(name, grade, classroom, studentNo, gender, scores, code, topThree);
+        }
+
+        // ===== แสดงผลลัพธ์ =====
+        function displayResults(name, grade, classroom, studentNo, gender, scores, code, topThree) {
+            document.getElementById('formSection').style.display = 'none';
+            document.getElementById('resultSection').style.display = 'block';
+            
+            document.getElementById('resultCode').textContent = code;
+            
+            const topType = code.charAt(0);
+            document.getElementById('resultName').textContent = 
+                `${riasecData[topType].icon} ${riasecData[topType].name} - ${riasecData[topType].nameTH}`;
+            
+            document.getElementById('userInfo').innerHTML = `
+                <p><strong>ชื่อ:</strong> ${name}</p>
+                <p><strong>ระดับชั้น:</strong> ${grade} ห้อง ${classroom} เลขที่ ${studentNo}</p>
+                <p><strong>เพศ:</strong> ${gender}</p>
+                <p><strong>วันที่ทำแบบทดสอบ:</strong> ${new Date().toLocaleDateString('th-TH', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
+            `;
+            
+            const maxScore = 10;
+            let chartHTML = '';
+            types.forEach(type => {
+                const percent = (scores[type] / maxScore) * 100;
+                chartHTML += `
+                    <div class="score-item">
+                        <span class="score-label">${riasecData[type].icon} ${type} - ${riasecData[type].nameTH}</span>
+                        <div class="score-bar-container">
+                            <div class="score-bar-fill" style="width:${percent}%; background:${riasecData[type].color};">
+                                ${scores[type] > 2 ? scores[type] : ''}
+                            </div>
+                        </div>
+                        <span class="score-value">${scores[type]}/10</span>
+                    </div>
+                `;
+            });
+            document.getElementById('scoreChart').innerHTML = chartHTML;
+            
+            let descHTML = '';
+            topThree.forEach(([type, score]) => {
+                descHTML += `
+                    <div class="personality-card" style="border-color:${riasecData[type].color}">
+                        <h4 style="color:${riasecData[type].color}">
+                            ${riasecData[type].icon} ${riasecData[type].name} - ${riasecData[type].nameTH} (${score} คะแนน)
+                        </h4>
+                        <p>${riasecData[type].description}</p>
+                    </div>
+                `;
+            });
+            document.getElementById('personalityDesc').innerHTML = descHTML;
+            
+            let careerHTML = '';
+            topThree.forEach(([type, score]) => {
+                careerHTML += `
+                    <h4 style="color:${riasecData[type].color}; margin-top:15px;">
+                        ${riasecData[type].icon} อาชีพสาย ${riasecData[type].nameTH}
+                    </h4>
+                    <div class="career-grid">
+                        ${riasecData[type].careers.map(c => `<div class="career-item">${c}</div>`).join('')}
+                    </div>
+                `;
+            });
+            document.getElementById('careerSuggestions').innerHTML = careerHTML;
+            
+            let majorHTML = '';
+            topThree.forEach(([type, score]) => {
+                majorHTML += `
+                    <h4 style="color:${riasecData[type].color}; margin-top:15px;">
+                        ${riasecData[type].icon} สาขาสาย ${riasecData[type].nameTH}
+                    </h4>
+                    <div class="career-grid">
+                        ${riasecData[type].majors.map(m => `<div class="career-item">${m}</div>`).join('')}
+                    </div>
+                `;
+            });
+            document.getElementById('majorSuggestions').innerHTML = majorHTML;
+            
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            
+            saveResult(name, grade, classroom, studentNo, gender, scores, code);
+        }
+
+        // ===== บันทึกผล =====
+        function saveResult(name, grade, classroom, studentNo, gender, scores, code) {
+            const result = {
+                name, grade, classroom, studentNo, gender, scores, code,
+                timestamp: new Date().toISOString()
+            };
+            
+            let results = JSON.parse(localStorage.getItem('riasecResults') || '[]');
+            results.push(result);
+            localStorage.setItem('riasecResults', JSON.stringify(results));
+        }
+
+        // ===== ทำแบบทดสอบใหม่ =====
+        function restartTest() {
+            if (confirm('ต้องการทำแบบทดสอบใหม่หรือไม่?')) {
+                location.reload();
+            }
+        }
+
+        // ===== แชร์ผลลัพธ์ =====
+        function shareResult() {
+            const code = document.getElementById('resultCode').textContent;
+            const text = `🎯 ผลทดสอบความสนใจอาชีพของฉันคือ: ${code}\n\nลองทำแบบทดสอบดูสิ: ${window.location.href}`;
+            
+            if (navigator.share) {
+                navigator.share({
+                    title: 'แบบทดสอบความสนใจอาชีพ RIASEC',
+                    text: text,
+                    url: window.location.href
+                });
+            } else {
+                navigator.clipboard.writeText(text);
+                alert('คัดลอกข้อความแล้ว! สามารถวางแชร์ได้เลย');
+            }
+        }
+
+        // ===== เริ่มต้น =====
+        initQuestions();
+    </script>
+</body>
+</html>
