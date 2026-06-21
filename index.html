@@ -3,118 +3,332 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>SDS Thailand (Top3 Career + Groups)</title>
+  <title>S.D.S. Self-Directed Search (Classroom)</title>
   <style>
-    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; margin: 16px; }
-    h1 { margin-top: 0; }
-    .section { border: 1px solid #ddd; padding: 12px; margin: 12px 0; border-radius: 10px; }
-    .q { margin: 10px 0; }
-    .grid2 { display:grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-    .card { border: 1px solid #eee; padding: 12px; border-radius: 10px; margin: 10px 0; }
-    .row { display:flex; gap: 12px; flex-wrap: wrap; }
-    button { padding: 10px 14px; cursor:pointer; }
-    .hidden { display:none; }
-    table { width:100%; border-collapse: collapse; margin-top: 10px; }
-    th, td { border:1px solid #e5e5e5; padding: 8px; text-align:left; }
-    .pill { display:inline-block; padding: 2px 10px; border-radius: 999px; background:#f0f0f0; margin-right: 6px; }
-    .small { color:#666; font-size: 0.95rem; }
-    label { cursor:pointer; }
-    ul { margin: 6px 0 0 18px; }
-    .group-block { border:1px solid #f1f1f1; border-radius: 12px; padding: 10px; background: #fcfcfc; }
-    .group-block ul { margin-top: 8px; }
+    :root{
+      --bg:#0b1220;
+      --card:#111a2e;
+      --card2:#0f1730;
+      --text:#e9eefc;
+      --muted:#aab3d6;
+      --line:rgba(255,255,255,.10);
+      --accent:#4f8cff;
+      --accent2:#37d6c5;
+      --danger:#ff5c7a;
+      --shadow: 0 10px 30px rgba(0,0,0,.35);
+      --radius:16px;
+    }
+    *{ box-sizing:border-box; }
+    body{
+      margin:0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      background: radial-gradient(1200px 600px at 10% 10%, rgba(79,140,255,.20), transparent 60%),
+                  radial-gradient(900px 500px at 90% 20%, rgba(55,214,197,.18), transparent 55%),
+                  var(--bg);
+      color:var(--text);
+      line-height:1.35;
+    }
+    .wrap{ max-width:1200px; margin:0 auto; padding:18px; }
+    header{
+      padding:18px 16px;
+      background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,0));
+      border:1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      margin-bottom:14px;
+    }
+    header h1{ margin:0 0 6px; font-size:1.35rem; letter-spacing:.2px; }
+    header p{ margin:0; color:var(--muted); font-size:.95rem; }
+
+    .section{
+      margin:14px 0;
+      border:1px solid var(--line);
+      border-radius: var(--radius);
+      background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,0));
+      box-shadow: var(--shadow);
+      padding:14px;
+    }
+    .section h2{ margin:0 0 10px; font-size:1.08rem; }
+    .small{ color:var(--muted); font-size:.92rem; }
+
+    .grid{
+      display:grid;
+      grid-template-columns: repeat(3, minmax(240px, 1fr));
+      gap:12px;
+    }
+    @media (max-width: 980px){
+      .grid{ grid-template-columns: 1fr; }
+    }
+
+    .card{
+      border:1px solid var(--line);
+      border-radius: 14px;
+      padding:12px;
+      background: rgba(17,26,46,.55);
+      position:relative;
+      overflow:hidden;
+    }
+    .card::after{
+      content:"";
+      position:absolute; inset:-1px;
+      background: radial-gradient(600px 180px at 10% 0%, rgba(79,140,255,.18), transparent 55%),
+                  radial-gradient(420px 180px at 90% 10%, rgba(55,214,197,.14), transparent 50%);
+      pointer-events:none;
+    }
+    .card > *{ position:relative; z-index:1; }
+
+    label{
+      display:flex;
+      gap:10px;
+      align-items:flex-start;
+      margin:8px 0;
+      cursor:pointer;
+      user-select:none;
+      color:var(--text);
+    }
+    input[type="text"], input[type="number"], select{
+      width:100%;
+      background: rgba(255,255,255,.05);
+      border:1px solid var(--line);
+      color:var(--text);
+      padding:10px 12px;
+      border-radius: 12px;
+      outline:none;
+    }
+    input::placeholder{ color:rgba(233,238,252,.55); }
+
+    .form-top{
+      display:grid;
+      grid-template-columns: 1.2fr .8fr .8fr .8fr;
+      gap:12px;
+      align-items:end;
+    }
+    @media (max-width: 980px){
+      .form-top{ grid-template-columns: 1fr; }
+    }
+
+    .btnRow{ display:flex; gap:10px; flex-wrap:wrap; margin-top:10px; }
+    button{
+      border:1px solid var(--line);
+      border-radius: 12px;
+      padding:11px 14px;
+      cursor:pointer;
+      background: rgba(79,140,255,.18);
+      color:var(--text);
+      font-weight:650;
+    }
+    button:hover{ border-color: rgba(79,140,255,.5); }
+    .btnSecondary{ background: rgba(55,214,197,.14); }
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      padding:6px 10px;
+      border-radius:999px;
+      background: rgba(255,255,255,.06);
+      border:1px solid var(--line);
+      color:var(--text);
+      font-weight:650;
+      gap:8px;
+    }
+    .pill small{ color:var(--muted); font-weight:600; }
+
+    table{
+      width:100%;
+      border-collapse: collapse;
+      margin-top:10px;
+      overflow:hidden;
+      border-radius: 14px;
+      border:1px solid var(--line);
+      background: rgba(15,23,48,.35);
+    }
+    th, td{
+      padding:10px 10px;
+      border-bottom:1px solid var(--line);
+      text-align:left;
+      font-size:.95rem;
+    }
+    th{ color:var(--muted); font-weight:700; background: rgba(255,255,255,.04); }
+    tr:last-child td{ border-bottom:none; }
+
+    .q{ margin:10px 0; padding:10px; border:1px dashed rgba(255,255,255,.15); border-radius: 12px; background: rgba(255,255,255,.03); }
+    .q .title{ display:flex; gap:10px; align-items:flex-start; }
+    .q .title strong{ min-width:24px; }
+    .grid2{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:10px;
+      margin-top:8px;
+    }
+    .choice{
+      border:1px solid rgba(255,255,255,.12);
+      border-radius: 12px;
+      padding:10px;
+      background: rgba(0,0,0,.12);
+    }
+    .choice:hover{ border-color: rgba(79,140,255,.45); }
+    .choice input{ transform: translateY(1px); }
+
+    .resultHead{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      align-items:center;
+      margin-bottom:10px;
+    }
+
+    .group-block{
+      border:1px solid var(--line);
+      background: rgba(17,26,46,.35);
+      border-radius: 14px;
+      padding:12px;
+      margin:10px 0;
+    }
+    .group-block h3{
+      margin:0 0 8px;
+      font-size:1.02rem;
+      display:flex;
+      gap:10px;
+      align-items:baseline;
+      flex-wrap:wrap;
+    }
+    ul{ margin:0; padding-left:18px; }
+    li{ margin:6px 0; color:rgba(233,238,252,.92); }
+
+    .hidden{ display:none !important; }
+    .note{
+      padding:10px 12px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,92,122,.25);
+      background: rgba(255,92,122,.08);
+      color: rgba(255,210,219,.95);
+      margin-top:10px;
+    }
   </style>
 </head>
-
 <body>
-  <h1>S.D.S. (Self-Directed Search) - แบบทดสอบออนไลน์</h1>
-  <p class="small">
-    โค้ดนี้ทำเพื่อใช้ในชั้นเรียน: คำนวณคะแนน Top 3 รหัส 3 ตัว และแสดง “ชื่ออาชีพ + กลุ่มอาชีพ”
-    โดยใช้ชุดอาชีพ R/I/A/S/E/C ที่คุณให้มา
-  </p>
+<div class="wrap">
+
+  <header>
+    <h1>S.D.S. (Self-Directed Search) — ใช้ในชั้นเรียน</h1>
+    <p>กรอกข้อมูลผู้เรียน + ทำแบบทดสอบ แล้วเว็บจะแสดง Top 3 รหัส (3 ตัวอักษร) พร้อมชื่ออาชีพ/กลุ่มอาชีพตามผล</p>
+  </header>
 
   <form id="form">
-    <!-- ===== หมวด 1: กิจกรรม ===== -->
+    <div class="section">
+      <h2>ข้อมูลผู้เรียน</h2>
+      <div class="form-top">
+        <div>
+          <div class="small" style="margin-bottom:6px;">ชื่อเล่น</div>
+          <input type="text" id="nickname" placeholder="เช่น น้องแป้ง" required />
+        </div>
+        <div>
+          <div class="small" style="margin-bottom:6px;">เลขที่</div>
+          <input type="number" id="studentNo" placeholder="เช่น 12" min="1" required />
+        </div>
+        <div>
+          <div class="small" style="margin-bottom:6px;">ห้อง</div>
+          <input type="text" id="room" placeholder="เช่น ม.3/1" required />
+        </div>
+        <div>
+          <div class="small" style="margin-bottom:6px;">ระดับชั้น</div>
+          <input type="text" id="level" placeholder="เช่น ม.3" required />
+        </div>
+      </div>
+      <div class="small" style="margin-top:10px;">
+        *ข้อมูลนี้จะใช้แสดงผลบนหน้าจอเท่านั้น (ยังไม่ส่งไปที่ server)
+      </div>
+    </div>
+
+    <!-- ===== หมวด 1 -->
     <div class="section">
       <h2>หมวด 1: กิจกรรม (ชอบ / ไม่ชอบ)</h2>
-
-      <div class="row">
-        <div class="card" style="flex:1; min-width:260px"><h3>R</h3><div id="activityR"></div></div>
-        <div class="card" style="flex:1; min-width:260px"><h3>I</h3><div id="activityI"></div></div>
-        <div class="card" style="flex:1; min-width:260px"><h3>A</h3><div id="activityA"></div></div>
+      <div class="grid">
+        <div class="card"><h3>R</h3><div id="activityR"></div></div>
+        <div class="card"><h3>I</h3><div id="activityI"></div></div>
+        <div class="card"><h3>A</h3><div id="activityA"></div></div>
       </div>
-
-      <div class="row">
-        <div class="card" style="flex:1; min-width:260px"><h3>S</h3><div id="activityS"></div></div>
-        <div class="card" style="flex:1; min-width:260px"><h3>E</h3><div id="activityE"></div></div>
-        <div class="card" style="flex:1; min-width:260px"><h3>C</h3><div id="activityC"></div></div>
+      <div class="grid" style="margin-top:12px;">
+        <div class="card"><h3>S</h3><div id="activityS"></div></div>
+        <div class="card"><h3>E</h3><div id="activityE"></div></div>
+        <div class="card"><h3>C</h3><div id="activityC"></div></div>
       </div>
     </div>
 
-    <!-- ===== หมวด 2: ความสามารถ (ใช่ / ไม่ใช่) ===== -->
+    <!-- ===== หมวด 2 -->
     <div class="section">
       <h2>หมวด 2: ความสามารถ (ใช่ / ไม่ใช่)</h2>
-      <p class="small">ตอบให้ครบทุกข้อ</p>
-
-      <div class="row">
-        <div class="card" style="flex:1; min-width:260px"><h3>R</h3><div id="abilityR"></div></div>
-        <div class="card" style="flex:1; min-width:260px"><h3>I</h3><div id="abilityI"></div></div>
-        <div class="card" style="flex:1; min-width:260px"><h3>A</h3><div id="abilityA"></div></div>
+      <div class="grid">
+        <div class="card"><h3>R</h3><div id="abilityR"></div></div>
+        <div class="card"><h3>I</h3><div id="abilityI"></div></div>
+        <div class="card"><h3>A</h3><div id="abilityA"></div></div>
       </div>
-
-      <div class="row">
-        <div class="card" style="flex:1; min-width:260px"><h3>S</h3><div id="abilityS"></div></div>
-        <div class="card" style="flex:1; min-width:260px"><h3>E</h3><div id="abilityE"></div></div>
-        <div class="card" style="flex:1; min-width:260px"><h3>C</h3><div id="abilityC"></div></div>
+      <div class="grid" style="margin-top:12px;">
+        <div class="card"><h3>S</h3><div id="abilityS"></div></div>
+        <div class="card"><h3>E</h3><div id="abilityE"></div></div>
+        <div class="card"><h3>C</h3><div id="abilityC"></div></div>
       </div>
     </div>
 
-    <!-- ===== หมวด 3: อาชีพ (สนใจ / ไม่สนใจ) ===== -->
+    <!-- ===== หมวด 3 -->
     <div class="section">
       <h2>หมวด 3: อาชีพ (สนใจ / ไม่สนใจ)</h2>
-      <p class="small">ตอบให้ครบทุกข้อ</p>
-
-      <div class="row">
-        <div class="card" style="flex:1; min-width:260px"><h3>R</h3><div id="careerR"></div></div>
-        <div class="card" style="flex:1; min-width:260px"><h3>I</h3><div id="careerI"></div></div>
-        <div class="card" style="flex:1; min-width:260px"><h3>A</h3><div id="careerA"></div></div>
+      <div class="grid">
+        <div class="card"><h3>R</h3><div id="careerR"></div></div>
+        <div class="card"><h3>I</h3><div id="careerI"></div></div>
+        <div class="card"><h3>A</h3><div id="careerA"></div></div>
+      </div>
+      <div class="grid" style="margin-top:12px;">
+        <div class="card"><h3>S</h3><div id="careerS"></div></div>
+        <div class="card"><h3>E</h3><div id="careerE"></div></div>
+        <div class="card"><h3>C</h3><div id="careerC"></div></div>
       </div>
 
-      <div class="row">
-        <div class="card" style="flex:1; min-width:260px"><h3>S</h3><div id="careerS"></div></div>
-        <div class="card" style="flex:1; min-width:260px"><h3>E</h3><div id="careerE"></div></div>
-        <div class="card" style="flex:1; min-width:260px"><h3>C</h3><div id="careerC"></div></div>
+      <div class="btnRow">
+        <button type="submit">คำนวณผล</button>
+        <button type="button" class="btnSecondary" id="btnScrollTop">กลับขึ้นบน</button>
+      </div>
+
+      <div class="note">
+        หากต้องการให้ “คงความถูกต้องตามไฟล์ SDS ของอาจารย์” แนะนำให้ทดลองเทียบผลกับ 1–2 คนในห้องก่อนใช้งานจริง
       </div>
     </div>
-
-    <button type="submit">คำนวณผล</button>
   </form>
 
-  <!-- ===== ผลลัพธ์ ===== -->
+  <!-- ===== Result -->
   <div id="result" class="section hidden">
-    <h2>ผลการทดสอบ</h2>
-
-    <div style="display:flex; gap: 8px; flex-wrap:wrap; align-items:center; margin-bottom: 8px;">
-      <span class="pill" id="codeTop1"></span>
-      <span class="pill" id="codeTop2"></span>
-      <span class="pill" id="codeTop3"></span>
-      <span class="pill" id="finalCode"></span>
+    <div class="resultHead">
+      <div class="pill">👤 <span id="resName">-</span> <small>ข้อมูลผู้เรียน</small></div>
+      <div class="pill">🏫 <span id="resClass">-</span> <small>ระดับ/ห้อง</small></div>
+      <div class="pill">🎯 <span id="resFinalCode">-</span> <small>รหัส 3 ตัว</small></div>
     </div>
 
-    <h3>อาชีพ Top 3 (แสดงตามกลุ่ม R/I/A/S/E/C)</h3>
+    <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center; margin-bottom:12px;">
+      <span class="pill" id="codeTop1">Top1</span>
+      <span class="pill" id="codeTop2">Top2</span>
+      <span class="pill" id="codeTop3">Top3</span>
+    </div>
+
+    <h2 style="margin:0 0 10px;">อาชีพ Top 3 (แสดงเป็นกลุ่ม R/I/A/S/E/C)</h2>
     <div id="careerMatch"></div>
 
-    <h3>คะแนนรายกลุ่ม (R/I/A/S/E/C)</h3>
+    <h2 style="margin:14px 0 10px;">คะแนนรายกลุ่ม</h2>
     <table>
       <thead>
-        <tr><th>ตัวอักษร</th><th>คะแนนรวม</th><th>อันดับ</th></tr>
+        <tr>
+          <th>ตัวอักษร</th>
+          <th>คะแนนรวม</th>
+          <th>อันดับ</th>
+        </tr>
       </thead>
       <tbody id="scoreTable"></tbody>
     </table>
   </div>
 
+</div>
+
 <script>
   // =========================
-  // ข้อมูลข้อสอบ (ตามที่คุณให้มา)
+  // ข้อมูลข้อสอบ (ตามที่คุณให้)
   // =========================
   const activity = {
     R: ["แก้เครื่องไฟฟ้า","แก้เครื่องยนต์","แก้เครื่องจักรกลต่างๆ","สร้างสิ่งต่างๆ ด้วยไม้","ขับรถบรรทุกรถแทรกเตอร์",
@@ -134,22 +348,18 @@
     C: ["เก็บรักษาโต๊ะและห้องให้สะอาดมีระเบียบ","พิมพ์หนังสือหรือจดหมายสำหรับตนเองและผู้อื่น",
         "บวก ลบ คูณ หาร ตัวเลขทางธุรกิจ หรือทำบัญชี","ควบคุมเครื่องกลทางธุรกิจชนิดต่างๆ (เช่น คอมพิวเตอร์)",
         "จัดเก็บบันทึกอย่างละเอียดเกี่ยวกับงบประมาณรายจ่าย","เรียนวิชาชวเลข พิมพ์ดีด","เรียนวิชาธุรกิจ",
-        "เรียนการจัดทำบัญชีรายการต่างๆ","เรียนวิชาคณิตศาสตร์ทางธุรกิจ","จัดเก็บรวบรวมรายงานเกี่ยวกับทะเบียนประวัติ",
-        "เขียนจดหมายเกี่ยวกับธุรกิจ"]
+        "เรียนการจัดทำบัญชีรายการต่างๆ","เรียนวิชาคณิตศาสตร์ทางธุรกิจ","จัดเก็บรวบรวมรายงานเกี่ยวกับทะเบียนประวัติ","เขียนจดหมายเกี่ยวกับธุรกิจ"]
   };
 
   const ability = {
-    R: ["ฉันสามารถใช้เครื่องมือทางช่างไม้ เช่น เลื่อย หรือเครื่องกลึง","ฉันใช้เครื่องมือวัดไฟฟ้า (Voltmeter) ได้",
-        "ฉันปรับคาร์บูเรเตอร์ได้","ฉันสามารถใช้เครื่องมือไฟฟ้าในการเจาะ บด ปั่น และจักรเย็บผ้าได้",
-        "ฉันสามารถขัด ถู ทาน้ำมันขัดเงา หรือซ่อมแซมเครื่องเรือนได้","ฉันอ่านพิมพ์เขียว (Blue Print) ได้",
-        "ฉันแก้ ซ่อมเครื่องไฟฟ้าเล็กๆ น้อยๆ ในบ้านได้","ฉันซ่อมเครื่องเรือนที่ชำรุดได้","ฉันแก้ ซ่อมทีวีเล็กๆ น้อยๆ ได้",
-        "ฉันสามารถซ่อมท่อน้ำง่ายๆ ได้","ฉันสามารถเขียนภาพเครื่องจักรกลได้"],
-    I: ["ฉันเข้าใจการทำงานของหลอดสุญญากาศ (Vacuum tube)","ฉันบอกชื่ออาหาร 3 ชนิดที่มีโปรตีนสูงได้",
-        "ฉันเข้าใจ \"เวลาครึ่งชีวิต\" ของสารกัมมันตภาพรังสี","ฉันรู้จักใช้ตารางเลขกำลังที่ใช้ในการคำนวณ (ตาราง logarithm)",
-        "ฉันรู้จักใช้เครื่องมือทางคณิตศาสตร์สำหรับคูณหรือหาร เช่น เครื่องคิดเลข","ฉันรู้จักวิธีใช้กล้องจุลทรรศน์",
-        "ฉันสามารถชี้บอกหมู่ดาว 3 หมู่ได้","ฉันสามารถบรรยายเกี่ยวกับหน้าที่ของเม็ดเลือดขาวได้",
-        "ฉันสามารถแปลความหมายของสูตรโครงสร้างทางเคมีง่ายๆ","ฉันเข้าใจเหตุผลว่าทำไมดาวเทียมไม่ตกมายังโลก",
-        "ฉันเคยร่วมงานแสดงประกวดสิ่งของทางวิทยาศาสตร์"],
+    R: ["ฉันสามารถใช้เครื่องมือทางช่างไม้ เช่น เลื่อย หรือเครื่องกลึง","ฉันใช้เครื่องมือวัดไฟฟ้า (Voltmeter) ได้","ฉันปรับคาร์บูเรเตอร์ได้",
+        "ฉันสามารถใช้เครื่องมือไฟฟ้าในการเจาะ บด ปั่น และจักรเย็บผ้าได้","ฉันสามารถขัด ถู ทาน้ำมันขัดเงา หรือซ่อมแซมเครื่องเรือนได้",
+        "ฉันอ่านพิมพ์เขียว (Blue Print) ได้","ฉันแก้ ซ่อมเครื่องไฟฟ้าเล็กๆ น้อยๆ ในบ้านได้","ฉันซ่อมเครื่องเรือนที่ชำรุดได้",
+        "ฉันแก้ ซ่อมทีวีเล็กๆ น้อยๆ ได้","ฉันสามารถซ่อมท่อน้ำง่ายๆ ได้","ฉันสามารถเขียนภาพเครื่องจักรกลได้"],
+    I: ["ฉันเข้าใจการทำงานของหลอดสุญญากาศ (Vacuum tube)","ฉันบอกชื่ออาหาร 3 ชนิดที่มีโปรตีนสูงได้","ฉันเข้าใจ \"เวลาครึ่งชีวิต\" ของสารกัมมันตภาพรังสี",
+        "ฉันรู้จักใช้ตารางเลขกำลังที่ใช้ในการคำนวณ (ตาราง logarithm)","ฉันรู้จักใช้เครื่องมือทางคณิตศาสตร์สำหรับคูณหรือหาร เช่น เครื่องคิดเลข",
+        "ฉันรู้จักวิธีใช้กล้องจุลทรรศน์","ฉันสามารถชี้บอกหมู่ดาว 3 หมู่ได้","ฉันสามารถบรรยายเกี่ยวกับหน้าที่ของเม็ดเลือดขาวได้",
+        "ฉันสามารถแปลความหมายของสูตรโครงสร้างทางเคมีง่ายๆ","ฉันเข้าใจเหตุผลว่าทำไมดาวเทียมไม่ตกมายังโลก","ฉันเคยร่วมงานแสดงประกวดสิ่งของทางวิทยาศาสตร์"],
     A: ["ฉันเล่นดนตรีบางชนิดได้","ฉันสามารถขับร้องเสียงประสานได้ ร่วมในการร้องเพลงหมู่ได้","ฉันเดี่ยวดนตรีบางชนิดได้",
         "ฉันเล่นละครได้","ฉันอ่านบทละครได้ตามบทบาทของผู้แสดง","ฉันร้องรำทำเพลงได้อย่างสนุกสนาน",
         "ฉันเขียนรูปเหมือนได้","ฉันระบายสี ตกแต่ง ปั้นรูปได้","ฉันทำเครื่องปั้นดินเผาได้",
@@ -157,60 +367,44 @@
     S: ["ฉันสามารถอธิบายสิ่งต่างๆ ให้คนอื่นเข้าใจได้ดี","ฉันเคยมีส่วนร่วมในกิจกรรมการกุศล การบริจาค (เช่น ขับรถแข่งเพื่อหาเงินช่วยกุศล)",
         "ฉันทำงานร่วมกับผู้อื่นได้ดี","ฉันสามารถทำความสนุกสนานให้คนสูงอายุกว่าได้","ฉันเป็นเจ้าของบ้านที่ดีกับแขกของฉัน",
         "ฉันชอบและรักที่จะสอนเด็กๆ","ฉันชอบจัดและวางแผนสำหรับงานปาร์ตี้ งานเลี้ยงสังสรรค์","ฉันชอบช่วยคนที่ไม่สบายใจให้คลายทุกข์ได้",
-        "ฉันทำงานเป็นอาสาสมัครตามโรงพยาบาล ชุมชน หรือบ้านได้","ฉันสามารถจัดงานโรงเรียนหรืองานกุศลให้สังคม",
-        "ฉันมองลักษณะของคนออก"],
-    E: ["ฉันได้รับเลือกให้ช่วยเหลืองานในโรงเรียนหรือวิทยาลัย","ฉันสามารถให้คำแนะนำการทำงานแก่ผู้อื่นได้",
-        "ฉันมีพลังงานเหลือหลาย และมีความกระตือรือร้นมากมาย","ฉันเก่งในการที่จะให้ผู้คนทำงานตามแบบวิธีของฉัน",
-        "ฉันเป็นคนขายของที่สามารถ","ฉันได้แสดงตนเป็นหัวหน้าของกลุ่มคนในการให้ข้อเสนอแนะหรือข้อเรียกร้องแก่ผู้มีอำนาจได้",
-        "ฉันได้รับรางวัลในการทำงานในฐานะผู้จำหน่ายของหรือหัวหน้างาน","ฉันได้เริ่มดำเนินธุรกิจการค้าหรือบริหารงานของตนเอง",
-        "ฉันรู้วิธีที่จะเป็นผู้นำที่ประสบความสำเร็จ","ฉันเป็นนักถกเถียงนักโต้วาทีที่ดี",
-        "ฉันเป็นผู้จัดตั้งชุมชนรวมกลุ่มหรือแก๊งค์"],
+        "ฉันทำงานเป็นอาสาสมัครตามโรงพยาบาล ชุมชน หรือบ้านได้","ฉันสามารถจัดงานโรงเรียนหรืองานกุศลให้สังคม","ฉันมองลักษณะของคนออก"],
+    E: ["ฉันได้รับเลือกให้ช่วยเหลืองานในโรงเรียนหรือวิทยาลัย","ฉันสามารถให้คำแนะนำการทำงานแก่ผู้อื่นได้","ฉันมีพลังงานเหลือหลาย และมีความกระตือรือร้นมากมาย",
+        "ฉันเก่งในการที่จะให้ผู้คนทำงานตามแบบวิธีของฉัน","ฉันเป็นคนขายของที่สามารถ","ฉันได้แสดงตนเป็นหัวหน้าของกลุ่มคนในการให้ข้อเสนอแนะหรือข้อเรียกร้องแก่ผู้มีอำนาจได้",
+        "ฉันได้รับรางวัลในการทำงานในฐานะผู้จำหน่ายของหรือหัวหน้างาน","ฉันได้เริ่มดำเนินธุรกิจการค้าหรือบริหารงานของตนเอง","ฉันรู้วิธีที่จะเป็นผู้นำที่ประสบความสำเร็จ",
+        "ฉันเป็นนักถกเถียงนักโต้วาทีที่ดี","ฉันเป็นผู้จัดตั้งชุมชนรวมกลุ่มหรือแก๊งค์"],
     C: ["ฉันสามารถพิมพ์ดีด 40 คำต่อนาที","ฉันสามารถใช้เครื่องคิดเลข เครื่องถ่ายเอกสารได้","ฉันสามารถจดชวเลขได้",
-        "ฉันสามารถจัดระเบียบเอกสาร และโต้ตอบจดหมายได้","ฉันสามารถทำงานในสำนักงานได้",
-        "ฉันสามารถใช้เครื่องทำบัญชีรายการต่างๆ ได้","ฉันสามารถจัดรวบรวมเอกสารเข้าที่ในเวลาอันรวดเร็ว",
-        "ฉันสามารถใช้เครื่องคำนวณได้ดี","ฉันสามารถใช้เครื่องมือ และวิธีจัดการกับข้อมูลง่ายๆ",
+        "ฉันสามารถจัดระเบียบเอกสาร และโต้ตอบจดหมายได้","ฉันสามารถทำงานในสำนักงานได้","ฉันสามารถใช้เครื่องทำบัญชีรายการต่างๆ ได้",
+        "ฉันสามารถจัดรวบรวมเอกสารเข้าที่ในเวลาอันรวดเร็ว","ฉันสามารถใช้เครื่องคำนวณได้ดี","ฉันสามารถใช้เครื่องมือ และวิธีจัดการกับข้อมูลง่ายๆ",
         "ฉันจัดระบบรายรับรายจ่ายได้","ฉันสามารถทำบันทึกการจ่ายและการขายได้"]
   };
 
   const career = {
     R: ["ช่างเทคนิคเครื่องบิน (Airplane Mechanic)","ผู้ชำนาญเรื่องสัตว์น้ำหรือสัตว์ป่า","ช่างเครื่องยนต์","ช่างไม้",
-        "ผู้คุมเครื่องตักดินที่ใช้เครื่องจักร","นักสำรวจ","ผู้ตรวจงานก่อสร้าง","ผู้ควบคุมการส่งวิทยุ",
-        "ผู้ทำงานปั๊มน้ำมัน","ผู้ดูแลสวนป่า สำนักงานเพาะชำ","ผู้ขับรถประจำทาง","วิศวกรรถไฟ","ช่างเครื่องกล","ช่างไฟฟ้า"],
-    I: ["นักอุตุนิยมวิทยา","นักชีววิทยา","นักดาราศาสตร์","นักเทคนิคการแพทย์","นักมานุษยวิทยา",
-        "นักสัตวศาสตร์","นักเคมี","นักวิจัยทางวิทยาศาสตร์ซึ่งทำงานอย่างอิสระ","ผู้เขียนเรื่อง บทความทางวิทยาศาสตร์",
-        "บรรณาธิการวารสารทางวิทยาศาสตร์","นักภูมิศาสตร์","นักพืชศาสตร์","ผู้ทำงานวิจัยทางด้านวิทยาศาสตร์","นักฟิสิกส์"],
-    A: ["นักกวี","วาทยากร (Conductor)","นักดนตรี","นักประพันธ์นวนิยาย","นักธุรกิจโฆษณา พาณิชยศิลป์",
-        "นักเขียน","นักเรียบเรียงเสียงประสาน","นักข่าว","นักเขียนรูป","นักร้อง","นักแต่งเพลง เนื้อร้อง ทำนอง",
-        "นักประติมากรรม ปั้นแกะสลัก","นักแต่งละคร","นักเขียนการ์ตูน"],
+        "ผู้คุมเครื่องตักดินที่ใช้เครื่องจักร","นักสำรวจ","ผู้ตรวจงานก่อสร้าง","ผู้ควบคุมการส่งวิทยุ","ผู้ทำงานปั๊มน้ำมัน",
+        "ผู้ดูแลสวนป่า สำนักงานเพาะชำ","ผู้ขับรถประจำทาง","วิศวกรรถไฟ","ช่างเครื่องกล","ช่างไฟฟ้า"],
+    I: ["นักอุตุนิยมวิทยา","นักชีววิทยา","นักดาราศาสตร์","นักเทคนิคการแพทย์","นักมานุษยวิทยา","นักสัตวศาสตร์","นักเคมี",
+        "นักวิจัยทางวิทยาศาสตร์ซึ่งทำงานอย่างอิสระ","ผู้เขียนเรื่อง บทความทางวิทยาศาสตร์","บรรณาธิการวารสารทางวิทยาศาสตร์","นักภูมิศาสตร์",
+        "นักพืชศาสตร์","ผู้ทำงานวิจัยทางด้านวิทยาศาสตร์","นักฟิสิกส์"],
+    A: ["นักกวี","วาทยากร (Conductor)","นักดนตรี","นักประพันธ์นวนิยาย","นักธุรกิจโฆษณา พาณิชยศิลป์","นักเขียน","นักเรียบเรียงเสียงประสาน",
+        "นักข่าว","นักเขียนรูป","นักร้อง","นักแต่งเพลง เนื้อร้อง ทำนอง","นักประติมากรรม ปั้นแกะสลัก","นักแต่งละคร","นักเขียนการ์ตูน"],
     S: ["นักสังคมวิทยา","ครูโรงเรียนมัธยม","ผู้เชี่ยวชาญทางเยาวชนเหลือขอ","นักบำบัดทางการพูดที่บกพร่อง",
         "ผู้ให้คำปรึกษากับคู่สมรสที่มีปัญหา","ผู้บริหารโรงเรียน","ผู้อำนวยการสถานพักผ่อน/สวนสาธารณะ/สนามเด็กเล่น",
-        "นักจิตวิทยาคลินิก","ครูสอนวิชาสังคมศาสตร์","ผู้อำนวยการด้านสวัสดิภาพประชาชน",
-        "ผู้ให้คำปรึกษาปัญหาส่วนตัว","ผู้ทำงานทางจิตเวช","ผู้ให้คำปรึกษาด้านอาชีพ","ผู้อำนวยการค่ายเยาวชน"],
+        "นักจิตวิทยาคลินิก","ครูสอนวิชาสังคมศาสตร์","ผู้อำนวยการด้านสวัสดิภาพประชาชน","ผู้ให้คำปรึกษาปัญหาส่วนตัว",
+        "ผู้ทำงานทางจิตเวช","ผู้ให้คำปรึกษาด้านอาชีพ","ผู้อำนวยการค่ายเยาวชน"],
     E: ["ผู้ซื้อขายหุ้น นักคาดการณ์ นักพยากรณ์","ผู้ซื้อ","ผู้อำนวยการฝ่ายโฆษณา",
-        "ตัวแทนจำหน่ายจากโรงงาน ผู้แทนฝ่ายโรงงานผู้ผลิต","ผู้จัดรายการโทรทัศน์","ผู้จัดการโรงแรม",
-        "ผู้จัดการด้านธุรกิจ","ผู้จัดการภัตตาคาร","ผู้ดำเนินงานพิธีต่างๆ พิธีกร","คนขายของ พนักงานเดินตลาด",
-        "ผู้ดำเนินธุรกิจซื้อขายที่ดิน บ้านจัดสรร","ผู้อำนวยการฝ่ายประชาสัมพันธ์",
-        "ผู้จัดการส่งเสริมด้านกีฬา (Sport promoter)","ผู้จัดการฝ่ายขาย"],
-    C: ["ผู้ทำบัญชีรายการต่างๆ","ครูสอนวิชาบริหารธุรกิจ","ผู้คำนวณรายรับรายจ่าย ผู้พิจารณางบประมาณ",
-        "ผู้ตรวจสอบบัญชีที่มีใบอนุญาต","พนักงานตรวจหลักทรัพย์","ผู้บันทึกในศาล",
-        "พนักงานธนาคาร (รับจ่ายเงินธนาคาร)","ผู้ชำนาญทางภาษี","ผู้ตรวจรายการสินค้า ผู้คุม Stock ของ",
-        "ผู้ควบคุมเครื่องคอมพิวเตอร์ IBM","นักวิจัยการเงิน ผู้วิเคราะห์สถานภาพทางการเงิน",
-        "ผู้ประเมินราคาสินค้า","พนักงานจ่ายเงิน","ผู้ตรวจสอบบัญชีธนาคาร"]
+        "ตัวแทนจำหน่ายจากโรงงาน ผู้แทนฝ่ายโรงงานผู้ผลิต","ผู้จัดรายการโทรทัศน์","ผู้จัดการโรงแรม","ผู้จัดการด้านธุรกิจ",
+        "ผู้จัดการภัตตาคาร","ผู้ดำเนินงานพิธีต่างๆ พิธีกร","คนขายของ พนักงานเดินตลาด","ผู้ดำเนินธุรกิจซื้อขายที่ดิน บ้านจัดสรร",
+        "ผู้อำนวยการฝ่ายประชาสัมพันธ์","ผู้จัดการส่งเสริมด้านกีฬา (Sport promoter)","ผู้จัดการฝ่ายขาย"],
+    C: ["ผู้ทำบัญชีรายการต่างๆ","ครูสอนวิชาบริหารธุรกิจ","ผู้คำนวณรายรับรายจ่าย ผู้พิจารณางบประมาณ","ผู้ตรวจสอบบัญชีที่มีใบอนุญาต",
+        "พนักงานตรวจหลักทรัพย์","ผู้บันทึกในศาล","พนักงานธนาคาร (รับจ่ายเงินธนาคาร)","ผู้ชำนาญทางภาษี","ผู้ตรวจรายการสินค้า ผู้คุม Stock ของ",
+        "ผู้ควบคุมเครื่องคอมพิวเตอร์ IBM","นักวิจัยการเงิน ผู้วิเคราะห์สถานภาพทางการเงิน","ผู้ประเมินราคาสินค้า","พนักงานจ่ายเงิน","ผู้ตรวจสอบบัญชีธนาคาร"]
   };
 
   const letters = ["R","I","A","S","E","C"];
 
   // =========================
-  // render choices
+  // UI render
   // =========================
-  function renderChoices(containerId, questions, type) {
-    const root = document.getElementById(containerId);
-    root.innerHTML = "";
-    const letter = containerId.replace(type === "ability" ? "ability" : type === "activity" ? "activity" : "career", "");
-    // แต่เราจะใช้ group จาก containerId แบบตายตัวเพื่อความง่าย: จะตั้ง group ตามค่าที่คุณใช้ในชื่อ div
-    // ดังนั้นต้องส่ง group letter เพิ่มเข้ามาจะชัวร์กว่า
-  }
-
   function renderGroup(containerId, groupLetter, questions, type) {
     const root = document.getElementById(containerId);
     root.innerHTML = "";
@@ -220,33 +414,69 @@
       const wrap = document.createElement("div");
       wrap.className = "q";
 
-      let gridOptions = "";
+      let options = "";
       if (type === "activity") {
-        gridOptions = `
+        options = `
           <div class="grid2">
-            <label><input required type="radio" name="activity_${groupLetter}_${qNo}" value="1"> ชอบ</label>
-            <label><input type="radio" name="activity_${groupLetter}_${qNo}" value="0"> ไม่ชอบ</label>
+            <div class="choice">
+              <label style="margin:0;">
+                <input required type="radio" name="activity_${groupLetter}_${qNo}" value="1" />
+                <span>ชอบ</span>
+              </label>
+            </div>
+            <div class="choice">
+              <label style="margin:0;">
+                <input type="radio" name="activity_${groupLetter}_${qNo}" value="0" />
+                <span>ไม่ชอบ</span>
+              </label>
+            </div>
           </div>`;
       } else if (type === "ability") {
-        gridOptions = `
+        options = `
           <div class="grid2">
-            <label><input required type="radio" name="ability_${groupLetter}_${qNo}" value="1"> ใช่</label>
-            <label><input type="radio" name="ability_${groupLetter}_${qNo}" value="0"> ไม่ใช่</label>
+            <div class="choice">
+              <label style="margin:0;">
+                <input required type="radio" name="ability_${groupLetter}_${qNo}" value="1" />
+                <span>ใช่</span>
+              </label>
+            </div>
+            <div class="choice">
+              <label style="margin:0;">
+                <input type="radio" name="ability_${groupLetter}_${qNo}" value="0" />
+                <span>ไม่ใช่</span>
+              </label>
+            </div>
           </div>`;
       } else if (type === "career") {
-        gridOptions = `
+        options = `
           <div class="grid2">
-            <label><input required type="radio" name="career_${groupLetter}_${qNo}" value="1"> สนใจ</label>
-            <label><input type="radio" name="career_${groupLetter}_${qNo}" value="0"> ไม่สนใจ</label>
+            <div class="choice">
+              <label style="margin:0;">
+                <input required type="radio" name="career_${groupLetter}_${qNo}" value="1" />
+                <span>สนใจ</span>
+              </label>
+            </div>
+            <div class="choice">
+              <label style="margin:0;">
+                <input type="radio" name="career_${groupLetter}_${qNo}" value="0" />
+                <span>ไม่สนใจ</span>
+              </label>
+            </div>
           </div>`;
       }
 
-      wrap.innerHTML = `<div><strong>${qNo}.</strong> ${text}</div>${gridOptions}`;
+      wrap.innerHTML = `
+        <div class="title">
+          <strong>${qNo}.</strong>
+          <div>${text}</div>
+        </div>
+        ${options}
+      `;
       root.appendChild(wrap);
     });
   }
 
-  // ====== render all ======
+  // render all groups
   renderGroup("activityR","R", activity.R, "activity");
   renderGroup("activityI","I", activity.I, "activity");
   renderGroup("activityA","A", activity.A, "activity");
@@ -277,35 +507,30 @@
     // activity
     for (let q = 1; q <= activity[letter].length; q++) {
       const el = document.querySelector(`input[name="activity_${letter}_${q}"]:checked`);
-      if (el) score += Number(el.value); // 1 ชอบ
+      if (el) score += Number(el.value);
     }
-
     // ability
     for (let q = 1; q <= ability[letter].length; q++) {
       const el = document.querySelector(`input[name="ability_${letter}_${q}"]:checked`);
-      if (el) score += Number(el.value); // 1 ใช่
+      if (el) score += Number(el.value);
     }
-
     // career
     for (let q = 1; q <= career[letter].length; q++) {
       const el = document.querySelector(`input[name="career_${letter}_${q}"]:checked`);
-      if (el) score += Number(el.value); // 1 สนใจ
+      if (el) score += Number(el.value);
     }
 
     return score;
   }
 
   function getTop3(scoreMap) {
-    const sorted = Object.entries(scoreMap).sort((a,b)=> b-a); // [["R",..],...]
-    const topLetters = sorted.slice(0,3).map(x => x); // e.g. ["R","I","C"]
-    return { sorted, code3: topLetters.join("") };
+    const sorted = Object.entries(scoreMap).sort((a,b)=> b-a);
+    const top3Letters = sorted.slice(0,3).map(x=>x);
+    return { sorted, code3: top3Letters.join("") };
   }
 
-  // =========================
-  // ผลลัพธ์: แสดง Top3 + รายชื่ออาชีพตามกลุ่ม
-  // =========================
   function renderTop3CareerByGroups(sorted) {
-    const top3Letters = sorted.slice(0, 3).map(x => x); // ["R","I","C"]
+    const top3Letters = sorted.slice(0, 3).map(x => x);
     const container = document.getElementById("careerMatch");
     container.innerHTML = "";
 
@@ -313,10 +538,9 @@
       const wrap = document.createElement("div");
       wrap.className = "group-block";
 
-      const title = document.createElement("div");
-      title.style.marginBottom = "6px";
-      title.innerHTML = `<strong>อันดับที่ ${idx + 1} : กลุ่ม ${letter}</strong> <span class="small">(อาชีพในกลุ่ม)</span>`;
-      wrap.appendChild(title);
+      const h = document.createElement("h3");
+      h.innerHTML = `อันดับที่ ${idx+1} : <span style="color:var(--accent2);">${letter}</span> <span class="small" style="font-weight:650;">(อาชีพในกลุ่ม)</span>`;
+      wrap.appendChild(h);
 
       const ul = document.createElement("ul");
       career[letter].forEach(job => {
@@ -330,34 +554,49 @@
     });
   }
 
-  // =========================
+  // scroll top
+  document.getElementById("btnScrollTop").addEventListener("click", () => {
+    window.scrollTo({top:0, behavior:"smooth"});
+  });
+
   // submit
-  // =========================
   document.getElementById("form").addEventListener("submit", (e) => {
     e.preventDefault();
 
-    // คะแนนแต่ละกลุ่ม
+    const nickname = document.getElementById("nickname").value.trim();
+    const studentNo = document.getElementById("studentNo").value;
+    const room = document.getElementById("room").value.trim();
+    const level = document.getElementById("level").value.trim();
+
     const scoreMap = {};
     letters.forEach(L => scoreMap[L] = getGroupScore(L));
 
     const { sorted, code3 } = getTop3(scoreMap);
 
-    // แสดง Top1-Top3 และ code3
+    // top pills
     document.getElementById("codeTop1").textContent = `Top1: ${sorted}`;
     document.getElementById("codeTop2").textContent = `Top2: ${sorted}`;
     document.getElementById("codeTop3").textContent = `Top3: ${sorted}`;
-    document.getElementById("finalCode").textContent = `รหัส 3 ตัว: ${code3}`;
 
-    // ตารางคะแนน
+    document.getElementById("resFinalCode").textContent = code3;
+
+    // header info
+    document.getElementById("resName").textContent = `${nickname} (เลขที่ ${studentNo})`;
+    document.getElementById("resClass").textContent = `${level} ห้อง ${room}`;
+
+    // table
     const tbody = document.getElementById("scoreTable");
     tbody.innerHTML = "";
     sorted.forEach(([L, sc], idx) => {
       const tr = document.createElement("tr");
-      tr.innerHTML = `<td><strong>${L}</strong></td><td>${sc}</td><td>${idx+1}</td>`;
+      tr.innerHTML = `
+        <td><strong>${L}</strong></td>
+        <td>${sc}</td>
+        <td>${idx+1}</td>`;
       tbody.appendChild(tr);
     });
 
-    // แสดงอาชีพ Top3 ตามกลุ่ม
+    // career top3 groups
     renderTop3CareerByGroups(sorted);
 
     // show result
